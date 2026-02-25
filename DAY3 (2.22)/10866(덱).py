@@ -18,11 +18,13 @@ class Deque:
         
         else:
             current = new_node
+            self.head.prev = new_node
             current.next = self.head
+            current.prev = None
             self.head = current
             
         self.cnt += 1
-        return data
+        
 
     def push_back(self, data):
         new_node = Node(data)
@@ -36,7 +38,7 @@ class Deque:
             self.tail.next = current
             self.tail = current
         self.cnt += 1
-        return data
+        
 
     def empty(self):
         if self.head is None and self.tail is None:
@@ -48,8 +50,16 @@ class Deque:
         if self.empty():
             return -1
         
+        if self.cnt == 1:
+            current = self.head
+            self.head = None
+            self.tail = None
+            self.cnt -= 1
+            return current.data
+
         current = self.head
         self.head = self.head.next
+        self.head.prev = None
         self.cnt -= 1
 
         if self.head is None:
@@ -61,8 +71,16 @@ class Deque:
         if self.empty():
             return -1
         
+        if self.cnt == 1:
+            current = self.tail
+            self.head = None
+            self.tail = None
+            self.cnt -= 1
+            return current.data
+        
         current = self.tail
         self.tail = self.tail.prev
+        self.tail.next = None
         self.cnt -= 1
 
         if self.tail is None:
@@ -79,35 +97,34 @@ class Deque:
     def back(self):
         return -1 if self.tail is None else self.tail.data
 
-a = Deque()
-repeat = int(input())
+import sys
+input = sys.stdin.readline
 
-for _ in range(0, repeat):
-    action = input()
-    parts = action.split()
+dq = Deque()
+n = int(input())
 
-    if (parts[0] == "push_front"):
-        a.push_front(int(parts[1]))
-        
-    elif (parts[0] == "push_back"):
-        a.push_back(int(parts[1]))
-            
-    elif (parts[0] == "pop_front"):
-        print(a.pop_front())
-    
-    elif (parts[0] == "pop_back"):
-        print(a.pop_back())
+out = []
+for _ in range(n):
+    parts = input().split()
+    cmd = parts[0]
 
-    elif (parts[0] == "size"):
-        print(a.size())
-    
-    elif (parts[0] == "empty"):
-        print(a.empty())
+    if cmd == "push_front":
+        dq.push_front(int(parts[1]))
+    elif cmd == "push_back":
+        dq.push_back(int(parts[1]))
+    elif cmd == "pop_front":
+        out.append(str(dq.pop_front()))
+    elif cmd == "pop_back":
+        out.append(str(dq.pop_back()))
+    elif cmd == "size":
+        out.append(str(dq.size()))
+    elif cmd == "empty":
+        out.append(str(dq.empty()))
+    elif cmd == "front":
+        out.append(str(dq.front()))
+    elif cmd == "back":
+        out.append(str(dq.back()))
 
-    elif (parts[0] == "front"):
-        print(a.front())
-    
-    elif (parts[0] == "back"):
-        print(a.back())
+sys.stdout.write("\n".join(out))
 
 
