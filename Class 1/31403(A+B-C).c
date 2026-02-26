@@ -1,21 +1,26 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int main (void){
 
     int A, B, C;
-    char CA[4], CB[4], CC[4];
+    char CAB[8];
 
     scanf("%d", &A);
     scanf("%d", &B);
     scanf("%d", &C);
 
-    CA[0] = 'A';
-    CB[0] = 'B';
-    CC[0] = 'C';
+    sprintf(CAB, "%d%d", A, B);
+    int AB;
+    AB = atoi(CAB);
 
-    int result_int = A + B - C;
-    int result_char = ((int)CA[0] * 10) + (int)CB[0] - CC[0];
-    printf("%d\n%d", result_int, result_char);
+    int real_cal, java_cal;
+    real_cal = A + B - C;
+    java_cal = AB - C;
+
+    printf("%d\n%d", real_cal, java_cal);
 
     return 0;
 }
+
+/*sprintf와 atoi에 대해 새롭게 배움*/
